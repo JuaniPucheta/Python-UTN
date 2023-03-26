@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for    # pip install flask
 import os
 import database as db                       # pip install mysql-connector-python
+from contextlib import closing, suppress
 
 template_dir = os.path.dirname(os.path.abspath(os.path.dirname(__file__))) # path to the parent directory of the current file
 template_dir = os.path.join(template_dir, "src", "templates")  # path to the templates directory
@@ -21,6 +22,22 @@ def home():
         insertObject.append(dict(zip(columnNames, record))) 
     cursor.close()
     return render_template("index.html", data=insertObject)
+
+#? OTRA FORMA USANDO "supress" y "closing" --------------------------------------
+    # @app.route("/")
+    # def home():
+    #     with suppress(Exception), closing(db.database.cursor()) as cursor:
+    #             cursor.execute("SELECT * FROM users")
+    #             myresult = cursor.fetchall()
+
+    #             # Convertir el resultado de la consulta a un diccionario
+    #             insertObject = []
+    #             columnNames = [column[0] for column in cursor.description]
+    #             for record in myresult:
+    #                 insertObject.append(dict(zip(columnNames, record))) 
+    #             cursor.close()
+    #             return render_template("index.html", data=insertObject)
+#? ------------------------------------------------------------------------------
 
 #Ruta para guardar usuarios en la BD
 @app.route("/user", methods=['POST'])
