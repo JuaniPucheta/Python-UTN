@@ -1,0 +1,72 @@
+{% extends "./base.html" %}
+
+{% block title %} Gestion de Socios {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success alert-dismissible fade show">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">&times;</button>
+                        <strong class="text-dark">{{message}}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <h2>Gestion de Socios</h2>
+            <div class="card">
+                <div class="card-body">
+                    <form action="/registrarSocio/" method="POST">{% csrf_token %}
+                        <div class="form-group">
+                            <input type="text" id="txtdni" name="txtdni" class="form-control" placeholder="DNI" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="txtnombre" name="txtnombre" class="form-control" placeholder="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="txtapellido" name="txtapellido" class="form-control" placeholder="apellido" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="txtemail" name="txtemail" class="form-control" placeholder="email" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
+            <div class="table-resoponsive py-2">
+                <h1>Listado de Socios</h1>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>DNI</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Email</th>
+                            <th colspan="2">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in socios %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>     <!-- lleva un conteo -->
+                                <td>{{ s.dni }}</td>
+                                <td>{{ s.nombre }}</td>
+                                <td>{{ s.apellido }}</td>
+                                <td>{{ s.email }}</td>
+                                <td>
+                                    <a href="edicionSocio/{{s.dni}}" class="btn btn-warning">Editar</a>
+                                    <a href="eliminarSocio/{{s.dni}}" class="btn btn-danger btnEliminacion">Eliminar</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
