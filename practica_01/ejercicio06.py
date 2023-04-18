@@ -58,12 +58,9 @@ def numeros_al_final_sorted(lista: List[Union[float, str]]) -> List[Union[float,
     Referencia: https://docs.python.org/3/library/functions.html#sorted
     """
 
-    lista_numeros = [i for i in lista if isinstance(
-        i, float) or isinstance(i, int)]
-    lista_strings = [i for i in lista if not isinstance(
-        i, float) and not isinstance(i, int)]
-
-    return sorted(lista_strings, key=lambda x: isinstance(x, float) or isinstance(x, int)) + lista_numeros
+    lista_numeros = sorted((x for x in lista if isinstance(x, (int, float))), key=float) # key=float para que ordene los numeros y no los strings, el isInstance es para que ordene los numeros y no los strings
+    lista_strings = sorted((x for x in lista if isinstance(x, str)))
+    return lista_strings + lista_numeros 
 
     pass  # Completar
 
