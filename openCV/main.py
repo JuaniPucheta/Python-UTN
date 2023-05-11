@@ -1,9 +1,9 @@
 # Para ejecutarlo, hacerlo desde la terminal con el comando: python main.py
 import cv2
 
-face_cascade = cv2.CascadeClassifier('cars.xml')
+face_cascade = cv2.CascadeClassifier('xml/cars.xml')
 
-cap = cv2.VideoCapture('video2.avi')
+cap = cv2.VideoCapture('videos/video2.avi')
 
 while True:
     _, img = cap.read()
