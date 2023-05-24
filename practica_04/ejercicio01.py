@@ -11,31 +11,36 @@ def crear_tabla():
         - Altura: Int()
     """
 
-    # Crear la conexion
-    conexion = sql.connect("practica-04/ejercicio01.db")
-    # Crear el cursor
-    cursor = conexion.cursor()
-    # Crear la tabla
-    cursor.execute("CREATE TABLE Persona (IdPersona INTEGER PRIMARY KEY AUTOINCREMENT, Nombre CHAR(30), FechaNacimiento DATE, DNI INT, Altura INT)")
-    # Guardar los cambios
-    conexion.commit()
-    # Cerrar la conexion
-    conexion.close()
+    conn = sql.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        '''
+        CREATE TABLE IF NOT EXISTS Persona (
+            IdPersona INTEGER PRIMARY KEY AUTOINCREMENT, 
+            Nombre TEXT, 
+            FechaNacimiento DATE, 
+            DNI INTEGER, 
+            Altura INTEGER
+        )'''
+    )
+    
+    conn.commit()
+    conn.close()
+
 
 
 def borrar_tabla():
     """Implementar la funcion borrar_tabla, que borra la tabla creada 
     anteriormente."""
-    # Crear la conexion
-    conexion = sql.connect("practica-04/ejercicio01.db")
-    # Crear el cursor
-    cursor = conexion.cursor()
-    # Borrar la tabla
+
+    conn = sql.connect("database.db")
+    cursor = conn.cursor()
+
     cursor.execute("DROP TABLE Persona")
-    # Guardar los cambios
-    conexion.commit()
-    # Cerrar la conexion
-    conexion.close()
+
+    conn.commit()
+    conn.close()
 
 
 # NO MODIFICAR - INICIO

@@ -33,14 +33,16 @@ def listar_pesos(id_persona):
     """
 
     try:
-        with sql.connect('ejercicio07.db') as conn:
+        with sql.connect('database.db') as conn:
             cursor = conn.cursor()
             cursor.execute(
-                'SELECT IdPersona FROM Persona WHERE IdPersona = ?', (id_persona,))
+                'SELECT IdPersona FROM Persona WHERE IdPersona = ?', (id_persona,)
+            )
             if cursor.fetchone() is None:
                 return (False, 'La persona no existe')
             cursor.execute(
-                'SELECT Fecha, Peso FROM PersonaPeso WHERE IdPersona = ?', (id_persona,))
+                'SELECT Fecha, Peso FROM PersonaPeso WHERE IdPersona = ?', (id_persona,)
+            )
             return [(fecha.strftime('%Y-%m-%d'), peso) for fecha, peso in cursor.fetchall()]
     except:
         return (False, 'No se pudo conectar a la BD')
@@ -49,8 +51,7 @@ def listar_pesos(id_persona):
 # NO MODIFICAR - INICIO
 @reset_tabla
 def pruebas():
-    id_juan = agregar_persona(
-        'juan perez', datetime.datetime(1988, 5, 15), 32165498, 180)
+    id_juan = agregar_persona('juan perez', datetime.datetime(1988, 5, 15), 32165498, 180)
     agregar_peso(id_juan, datetime.datetime(2018, 5, 1), 80)
     agregar_peso(id_juan, datetime.datetime(2018, 6, 1), 85)
     pesos_juan = listar_pesos(id_juan)

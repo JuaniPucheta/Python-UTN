@@ -22,18 +22,21 @@ def agregar_peso(id_persona, fecha, peso):
     - False en caso de no cumplir con alguna validacion."""
 
     try:
-        with sql.connect('ejercicio06.db') as conn:
+        with sql.connect('database.db') as conn:
             cursor = conn.cursor()
             cursor.execute(
-                'SELECT IdPersona FROM Persona WHERE IdPersona = ?', (id_persona,))
+                'SELECT IdPersona FROM Persona WHERE IdPersona = ?', (id_persona,)
+            )
             if cursor.fetchone() is None:
                 return False
             cursor.execute(
-                'SELECT IdPersona FROM PersonaPeso WHERE IdPersona = ? AND Fecha > ?', (id_persona, fecha))
+                'SELECT IdPersona FROM PersonaPeso WHERE IdPersona = ? AND Fecha > ?', (id_persona, fecha)
+            )
             if cursor.fetchone() is not None:
                 return False
             cursor.execute(
-                'INSERT INTO PersonaPeso (IdPersona, Fecha, Peso) VALUES (?, ?, ?)', (id_persona, fecha, peso))
+                'INSERT INTO PersonaPeso (IdPersona, Fecha, Peso) VALUES (?, ?, ?)', (id_persona, fecha, peso)
+            )
             conn.commit()
             return cursor.lastrowid
     except:
@@ -43,8 +46,7 @@ def agregar_peso(id_persona, fecha, peso):
 # NO MODIFICAR - INICIO
 @reset_tabla
 def pruebas():
-    id_juan = agregar_persona(
-        'juan perez', datetime.datetime(1988, 5, 15), 32165498, 180)
+    id_juan = agregar_persona('juan perez', datetime.datetime(1988, 5, 15), 32165498, 180)
     assert agregar_peso(id_juan, datetime.datetime(2018, 5, 26), 80) > 0
     # Test Id incorrecto
     assert agregar_peso(200, datetime.datetime(1988, 5, 15), 80) == False

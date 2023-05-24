@@ -14,18 +14,16 @@ def actualizar_persona(id_persona, nombre, nacimiento, dni, altura):
     registro y lo actualizo o no."""
 
     try:
-        with sql.connect('ejercicio05.py') as conn:
+        with sql.connect('database.db') as conn:
             cursor = conn.cursor()
             cursor.execute(
-                'UPDATE persona SET nombre = ?, nacimiento = ?, dni = ?, altura = ? WHERE id_persona = ?', (nombre, nacimiento, dni, altura, id_persona))
+                'UPDATE Persona SET nombre = ?, nacimiento = ?, dni = ?, altura = ? WHERE id_persona = ?', (nombre, nacimiento, dni, altura, id_persona))
             conn.commit()
             return True
     except:
         return False
 
 # NO MODIFICAR - INICIO
-
-
 @reset_tabla
 def pruebas():
     id_juan = agregar_persona(

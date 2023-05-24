@@ -11,17 +11,14 @@ def borrar_persona(id_persona):
     """Implementar la funcion borrar_persona, que elimina un registro en la 
     tabla Persona. Devuelve un booleano en base a si encontro el registro y lo 
     borro o no."""
-    pass # Completar
-    # Crear la conexion
-    conexion = sql.connect("practica-04/ejercicio03.db")
-    # Crear el cursor
-    cursor = conexion.cursor()
-    # Insertar un registro
-    cursor.execute("DELETE FROM Persona WHERE IdPersona = {}".format(id_persona))
-    # Guardar los cambios
-    conexion.commit()
-    # Cerrar la conexion
-    conexion.close()
+
+    conn = sql.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM Persona WHERE IdPersona = ?", (id_persona,))
+
+    conn.commit()
+    conn.close()
     
 
 # NO MODIFICAR - INICIO

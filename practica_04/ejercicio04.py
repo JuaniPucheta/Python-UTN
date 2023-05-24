@@ -12,18 +12,15 @@ def buscar_persona(id_persona):
     persona basado en su id. El return es una tupla que contiene sus campos: 
     id, nombre, nacimiento, dni y altura. Si no encuentra ningun registro, 
     devuelve False."""
-    pass # Completar
+    pass 
 
-    # Crear la conexion
-    conexion = sql.connect("practica-04/ejercicio03.db")
-    # Crear el cursor
-    cursor = conexion.cursor()
-    # Buscar la persona por su id y mostrarla por consola
-    cursor.execute("SELECT * FROM Persona WHERE IdPersona = {}".format(id_persona))
+    conn = sql.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM Persona WHERE IdPersona = ?", (id_persona,))
     persona = cursor.fetchone()
-    # Cerrar la conexion
-    conexion.close()
-    # Devolver la persona
+    
+    conn.close()
     return persona
     
 

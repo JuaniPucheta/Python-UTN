@@ -11,10 +11,11 @@ def crear_tabla_peso():
         - Peso: Int()
     """
     try:
-        with sql.connect('ejercicio06.db') as conn:
+        with sql.connect('database.db') as conn:
             cursor = conn.cursor()
             cursor.execute(
-                'CREATE TABLE IF NOT EXISTS PersonaPeso (IdPersona INTEGER, Fecha DATE, Peso INTEGER)')
+                'CREATE TABLE IF NOT EXISTS PersonaPeso (IdPersona INTEGER, Fecha DATE, Peso INTEGER)'
+            )
             conn.commit()
             return True
     except:
@@ -26,7 +27,7 @@ def borrar_tabla_peso():
     anteriormente."""
 
     try:
-        with sql.connect('ejercicio06.db') as conn:
+        with sql.connect('database.db') as conn:
             cursor = conn.cursor()
             cursor.execute('DROP TABLE PersonaPeso')
             conn.commit()

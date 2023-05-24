@@ -8,17 +8,19 @@ def agregar_persona(nombre, nacimiento, dni, altura):
     """Implementar la funcion agregar_persona, que inserte un registro en la 
     tabla Persona y devuelva los datos ingresados el id del nuevo registro."""
 
-    # Crear la conexion
-    conexion = sql.connect("practica-04/ejercicio02.db")
-    # Crear el cursor
-    cursor = conexion.cursor()
-    # Insertar un registro
-    cursor.execute("INSERT INTO Persona (Nombre, FechaNacimiento, DNI, Altura) VALUES ('{}', '{}', {}, {})".format(nombre, nacimiento, dni, altura))
-    # Guardar los cambios
-    conexion.commit()
-    # Cerrar la conexion
-    conexion.close()
-    # Devolver el id del nuevo registro
+    conn = sql.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        '''
+        INSERT INTO Persona
+            (Nombre, FechaNacimiento, DNI, Altura)
+            VALUES (?, ?, ?, ?)
+        ''', (nombre, nacimiento, dni, altura)
+    )
+    
+    conn.commit()
+    conn.close()
     return cursor.lastrowid
 
 
