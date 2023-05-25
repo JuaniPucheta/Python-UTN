@@ -1,9 +1,10 @@
 """Base de Datos SQL - Uso de múltiples tablas"""
 
 import datetime
-import sqlite3 as sql
 
+from ejercicio01 import conn, cursor
 from ejercicio02 import agregar_persona
+from ejercicio04 import buscar_persona
 from ejercicio06 import reset_tabla
 
 
@@ -21,25 +22,24 @@ def agregar_peso(id_persona, fecha, peso):
     - ID del peso registrado.
     - False en caso de no cumplir con alguna validacion."""
 
-    try:
-        with sql.connect('database.db') as conn:
-            cursor = conn.cursor()
-            cursor.execute(
-                'SELECT IdPersona FROM Persona WHERE IdPersona = ?', (id_persona,)
-            )
-            if cursor.fetchone() is None:
-                return False
-            cursor.execute(
-                'SELECT IdPersona FROM PersonaPeso WHERE IdPersona = ? AND Fecha > ?', (id_persona, fecha)
-            )
+    try: 
+        # Primero valido que la persona exista
+        if buscar_persona(id_persona) is None:
+            print('La persona no existe')
+            return False
+        else: 
+            cursor.execute('SELECT * FROM personaPeso WHERE idPersona = ? AND fecha > ?', (id_persona, fecha))
             if cursor.fetchone() is not None:
+                print('Ya existe un registro de fecha posterior')
                 return False
-            cursor.execute(
-                'INSERT INTO PersonaPeso (IdPersona, Fecha, Peso) VALUES (?, ?, ?)', (id_persona, fecha, peso)
-            )
-            conn.commit()
-            return cursor.lastrowid
+            else:
+                cursor.execute(
+                    'INSERT INTO personaPeso (idPersona, fecha, peso) VALUES (?, ?, ?)', (id_persona, fecha, peso)
+                )
+                conn.commit()
+                return cursor.lastrowid
     except:
+        print('No se pudo agregar el peso')
         return False
 
 

@@ -4,6 +4,8 @@ Ejercicio práctico-07 sobre la asignatura "Soporte a la Gestión de Datos con P
 
 ### Creacion de un proyecto Django
 
+- El comando para ejecutar el servidor de desarrollo es el siguiente: python manage.py runserver
+
 El comando para crear un proyecto Django es el siguiente:
 
 ```
@@ -13,7 +15,6 @@ python -m django-admin startapp myproject .
 python manage.py migrate            // Para hacer la migracion inicial del proyecto
 python manage.py makemigrations     // Para crear el modelo
 python manage.py createsuperuser    // Para crear un usuario administrador del proyecto (opcional)
-python manage.py runserver          // Para ejecutar el servidor de desarrollo
 ```
 
 ### Comentarios aparte al ejecutar el servidor de desarrollo

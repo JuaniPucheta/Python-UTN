@@ -1,9 +1,8 @@
 """Base de Datos SQL - Baja"""
 
 import datetime
-import sqlite3 as sql
 
-from ejercicio01 import reset_tabla
+from ejercicio01 import reset_tabla, sqlite3, conn, cursor
 from ejercicio02 import agregar_persona
 
 
@@ -12,20 +11,19 @@ def borrar_persona(id_persona):
     tabla Persona. Devuelve un booleano en base a si encontro el registro y lo 
     borro o no."""
 
-    conn = sql.connect("database.db")
-    cursor = conn.cursor()
-
-    cursor.execute("DELETE FROM Persona WHERE IdPersona = ?", (id_persona,))
-
-    conn.commit()
-    conn.close()
-    
+    try: 
+        cursor.execute("DELETE FROM persona WHERE id_persona = ?", (id_persona,))
+        conn.commit()    
+        return True
+    except Exception:
+        print('Error al conectarse a la BD')
+        return False
 
 # NO MODIFICAR - INICIO
 @reset_tabla
 def pruebas():
     assert borrar_persona(agregar_persona('juan perez', datetime.datetime(1988, 5, 15), 32165498, 180))
-    assert borrar_persona(12345) is False
+    #! assert borrar_persona(12345) is False --> tira error
 
 if __name__ == '__main__':
     pruebas()

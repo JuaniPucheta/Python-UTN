@@ -1,9 +1,8 @@
 """Base de Datos SQL - Búsqueda"""
 
 import datetime
-import sqlite3 as sql
 
-from ejercicio01 import reset_tabla
+from ejercicio01 import reset_tabla, cursor
 from ejercicio02 import agregar_persona
 
 
@@ -14,16 +13,17 @@ def buscar_persona(id_persona):
     devuelve False."""
     pass 
 
-    conn = sql.connect("database.db")
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT * FROM Persona WHERE IdPersona = ?", (id_persona,))
-    persona = cursor.fetchone()
+    try:
+        cursor.execute("SELECT * FROM persona WHERE id_persona = ?", (id_persona,))
+        persona = cursor.fetchone()
+        if persona is None:
+            return False
+        else: 
+            return persona
+    except Exception:
+        print('Error al conectarse a la BD')
     
-    conn.close()
-    return persona
     
-
 # NO MODIFICAR - INICIO
 @reset_tabla
 def pruebas():

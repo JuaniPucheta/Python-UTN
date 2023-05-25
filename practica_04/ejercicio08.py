@@ -1,9 +1,10 @@
 """Base de datos SQL - Listar"""
 
 import datetime
-import sqlite3 as sql
 
+from ejercicio01 import conn, cursor
 from ejercicio02 import agregar_persona
+from ejercicio04 import buscar_persona
 from ejercicio06 import reset_tabla
 from ejercicio07 import agregar_peso
 
@@ -32,20 +33,24 @@ def listar_pesos(id_persona):
     - False en caso de no cumplir con alguna validacion.
     """
 
-    try:
-        with sql.connect('database.db') as conn:
-            cursor = conn.cursor()
-            cursor.execute(
-                'SELECT IdPersona FROM Persona WHERE IdPersona = ?', (id_persona,)
-            )
-            if cursor.fetchone() is None:
-                return (False, 'La persona no existe')
-            cursor.execute(
-                'SELECT Fecha, Peso FROM PersonaPeso WHERE IdPersona = ?', (id_persona,)
-            )
-            return [(fecha.strftime('%Y-%m-%d'), peso) for fecha, peso in cursor.fetchall()]
+    try: 
+        #Primero valido que la persona exista
+        if buscar_persona(id_persona) is None:
+            print('La persona no existe')
+            return False
+        else:
+            cursor.execute('SELECT fecha, peso FROM personaPeso WHERE idPersona = ?', (id_persona,))
+            lista = cursor.fetchall()
+            if lista is None:
+                print('No se encontraron pesos')
+                return False
+            else: 
+                # devuelvo la lista de pesos con el formato pedido
+                return [(datetime.datetime.strptime(fecha, '%Y-%m-%d').strftime('%Y-%m-%d'), peso) for fecha, peso in lista]
     except:
-        return (False, 'No se pudo conectar a la BD')
+        print('No se pudo listar los pesos')
+        return False
+
 
 
 # NO MODIFICAR - INICIO
