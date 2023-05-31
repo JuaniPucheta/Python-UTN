@@ -22,7 +22,7 @@ class DatosSocio():
         """Devuelve la instancia del socio, dado su id. Devuelve None si no
         encuentra nada.
         """
-        return self.session.query(Socio).filter_by(id_socio=id_socio).first()
+        return self.session.query(Socio).filter_by(id=id_socio).first()
 
     def buscar_dni(self, dni_socio: int) -> Optional[Socio]:
         """Devuelve la instancia del socio, dado su dni. Devuelve None si no
@@ -52,14 +52,19 @@ class DatosSocio():
         """Borra el socio especificado por el id. Devuelve True si el borrado
         fue exitoso.
         """
-        self.session.query(Socio).filter_by(id_socio=id_socio).delete()
+        self.session.query(Socio).filter_by(id=id_socio).delete()
 
     def modificacion(self, socio: Socio) -> Socio:
         """Guarda un socio con sus datos modificados. Devuelve el Socio
         modificado.
         """
-        self.session.query(Socio).filter_by(id_socio=socio.id).update(
-            {Socio.nombre: socio.nombre, Socio.apellido: socio.apellido, Socio.dni: socio.dni})
+        self.session.query(Socio).filter_by(id=socio.id).update(
+            {
+                Socio.nombre: socio.nombre, 
+                Socio.apellido: socio.apellido, 
+                Socio.dni: socio.dni
+            }
+        )
         self.session.commit()
         return socio
 
