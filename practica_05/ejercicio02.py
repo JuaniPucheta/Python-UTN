@@ -13,7 +13,7 @@ class DatosSocio():
 
     def __init__(self):
         """Constructor de la clase"""
-        self.engine = create_engine('sqlite:///socios.db')
+        self.engine = create_engine('sqlite:///socios.db', echo=True)
         Base.metadata.create_all(self.engine)
         self.Session = sessionmaker(bind=self.engine)
         self.session = self.Session()
@@ -53,6 +53,8 @@ class DatosSocio():
         fue exitoso.
         """
         self.session.query(Socio).filter_by(id=id_socio).delete()
+        self.session.commit()
+        return True
 
     def modificacion(self, socio: Socio) -> Socio:
         """Guarda un socio con sus datos modificados. Devuelve el Socio

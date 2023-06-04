@@ -7,19 +7,16 @@ def agregar_persona(nombre, nacimiento, dni, altura):
     """Implementar la funcion agregar_persona, que inserte un registro en la 
     tabla Persona y devuelva los datos ingresados el id del nuevo registro."""
 
-    try: 
-        cursor.execute(
-            '''
-            INSERT INTO persona
-                (nombre, fechaNacimiento, dni, altura)
-                VALUES (?, ?, ?, ?)
-            ''', (nombre, nacimiento, dni, altura)
-        )
-        conn.commit()
-        print(f'Registro insertado con exito con id: {cursor.lastrowid}')
-        return cursor.lastrowid
-    except Exception as e:
-        print('Error al conectarse a la BD')
+    cursor.execute(
+        '''
+        INSERT INTO persona
+            (nombre, fechaNacimiento, dni, altura)
+            VALUES (?, ?, ?, ?)
+        ''', (nombre, nacimiento, dni, altura)
+    )
+    conn.commit()
+    print(f'Registro insertado con exito con id: {cursor.lastrowid}')
+    return cursor.lastrowid
 
 # NO MODIFICAR - INICIO
 @reset_tabla

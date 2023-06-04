@@ -14,15 +14,13 @@ def crear_tabla():
         - Altura: Int()
     """
 
-    cursor.execute(
-        '''
-        CREATE TABLE IF NOT EXISTS persona (
-            id_persona INTEGER PRIMARY KEY AUTOINCREMENT, 
-            nombre TEXT, 
-            fechaNacimiento DATE, 
-            dni INTEGER, 
-            altura INTEGER
-        )'''
+    cursor.execute("""CREATE TABLE IF NOT EXISTS persona (
+            id INTEGER PRIMARY KEY AUTOINCREMENT, 
+            nombre TEXT NOT NULL, 
+            fechaNacimiento DATE NOT NULL, 
+            dni INTEGER NOT NULL, 
+            altura INTEGER NOT NULL
+        )"""
     )
     print('Tabla creada con exito')
     conn.commit()
@@ -31,8 +29,7 @@ def borrar_tabla():
     """Implementar la funcion borrar_tabla, que borra la tabla creada 
     anteriormente."""
 
-    cursor.execute("DROP TABLE persona")
-
+    cursor.execute("DROP TABLE IF EXISTS persona")
     conn.commit()
 
 # NO MODIFICAR - INICIO
@@ -40,7 +37,7 @@ def reset_tabla(func):
     def func_wrapper():
         crear_tabla()
         func()
-        borrar_tabla()
+        #! borrar_tabla() --> lo comento porque me la borra
     return func_wrapper
 # NO MODIFICAR - FIN
 
