@@ -1,20 +1,16 @@
 # Implementar los metodos de la capa de negocio de socios.
-
 from practica_05.ejercicio02 import DatosSocio
 from practica_05.ejercicio01 import Socio
 
 
 class DniRepetido(Exception):
-    pass
-
+    Exception('El DNI ya esta registrado')
 
 class LongitudInvalida(Exception):
-    pass
-
+    Exception('La longitud del nombre y/o apellido no es valida')
 
 class MaximoAlcanzado(Exception):
-    pass
-
+    Exception('Se alcanzo el maximo de socios')
 
 class NegocioSocio(object):
 
@@ -32,7 +28,12 @@ class NegocioSocio(object):
         :rtype: Socio
         """
         socio = self.datos.buscar(id_socio)
-        return socio
+        if socio is None:
+            print('No se encontro el socio')
+            return None
+        else:
+            print('Socio encontrado: ', socio.nombre, socio.apellido, )
+            return socio
 
     def buscar_dni(self, dni_socio):
         """
@@ -41,15 +42,28 @@ class NegocioSocio(object):
         :rtype: Socio
         """
         socio = self.datos.buscar(dni_socio)
-        return socio
+        if socio is None:
+            print('No se encontro el socio')
+            return None
+        else:
+            print('Socio encontrado con dni: ', socio.dni)
+            return socio
 
     def todos(self):
         """
         Devuelve listado de todos los socios.
         :rtype: list
         """
-        return self.datos.todos()
-
+        socios = self.datos.todos()
+        if socios is None:
+            print('No hay socios')
+            return None
+        else:
+            print('Socios encontrados: ')
+            for socio in socios:
+                print(socio.nombre, socio.apellido, socio.dni)
+            return socios
+        
     def alta(self, socio):
         """
         Da de alta un socio.
@@ -61,8 +75,12 @@ class NegocioSocio(object):
         """
         if self.regla_1(socio) and self.regla_2(socio) and self.regla_3():
             self.datos.alta(socio)
+            print('Socio dado de alta al validarse las 3 reglas')
             return True
-        return False
+        else: 
+            print('No se pudo dar de alta al socio')
+            return False
+        
 
     def baja(self, id_socio):
         """
@@ -70,7 +88,12 @@ class NegocioSocio(object):
         Devuelve True si el borrado fue exitoso.
         :rtype: bool
         """
-        return self.datos.baja(id_socio)
+        if self.datos.baja(id_socio):
+            print('Socio dado de baja')
+            return True
+        else:
+            print('No se pudo dar de baja al socio')
+            return False
 
     def modificacion(self, socio):
         """
@@ -83,8 +106,11 @@ class NegocioSocio(object):
         """
         if self.regla_2(socio):
             self.datos.modificacion(socio)
+            print('Socio modificado')
             return True
-        return False
+        else: 
+            print('No se pudo modificar al socio')
+            return False
 
     def regla_1(self, socio):
         """
@@ -93,10 +119,10 @@ class NegocioSocio(object):
         :raise: DniRepetido
         :return: bool
         """
-
         if self.datos.buscar_dni(socio.dni):
-            raise DniRepetido
-        return True
+            raise DniRepetido('El DNI ya esta registrado')
+        else: 
+            return True
 
     def regla_2(self, socio):
         """
@@ -106,8 +132,10 @@ class NegocioSocio(object):
         :return: bool
         """
         if len(socio.nombre) < self.MIN_CARACTERES or len(socio.nombre) > self.MAX_CARACTERES:
+            print('Error regla 2, nombre')
             raise LongitudInvalida
         if len(socio.apellido) < self.MIN_CARACTERES or len(socio.apellido) > self.MAX_CARACTERES:
+            print('Error regla 2, apellido')
             raise LongitudInvalida
         return True
 
@@ -118,5 +146,8 @@ class NegocioSocio(object):
         :return: bool
         """
         if len(self.datos.todos()) > self.MAX_SOCIOS:
+            print('Error regla 3')
             raise MaximoAlcanzado
-        return True
+        else: 
+            print('Pasa la regla 3')
+            return True

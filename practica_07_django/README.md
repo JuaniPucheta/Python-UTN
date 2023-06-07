@@ -24,3 +24,4 @@ python manage.py createsuperuser    // Para crear un usuario administrador del p
 - Si hemos creado una tabla (en este caso "Socios") y queremos agregar un nuevo socio, podemos hacerlo desde el panel de administración de Django.
 - {% csrf_token %} es un token de seguridad que se utiliza para proteger el formulario contra ataques de falsificación de solicitudes cruzadas (CSRF).
 - {% loadstatic %} es un tag de plantilla que se utiliza para cargar archivos estáticos.
+- Video de referencia: https://www.youtube.com/watch?v=uSbDMs7Y9yI

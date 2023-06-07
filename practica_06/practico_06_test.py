@@ -2,8 +2,8 @@
 
 import unittest
 
-from practico_05.ejercicio_01 import Socio
-from practico_06.capa_negocio import NegocioSocio, LongitudInvalida
+from practica_05.ejercicio01 import Socio
+from practica_06.capa_negocio import NegocioSocio, LongitudInvalida
 
 
 class TestsNegocio(unittest.TestCase):
