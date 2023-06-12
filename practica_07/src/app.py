@@ -55,7 +55,7 @@ def addUser():
     return redirect(url_for('home'))
 
 #Ruta para eliminar usuarios de la BD
-@app.route("/delete/<string:id>")
+@app.route("/delete/<string:id>", methods=['POST','DELETE'])
 def delete(id):
     cursor = db.database.cursor()
     sql = "DELETE FROM users WHERE id = %s"
